@@ -1,3 +1,0 @@
-[submodule "analysis/extensions/phpstan-strict-rules"]
-	path = analysis/extensions/phpstan-strict-rules
-	url = https://github.com/phpstan/phpstan-strict-rules

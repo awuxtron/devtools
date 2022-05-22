@@ -17,6 +17,7 @@
         "source": "https://github.com/awuxtron/devtools"
     },
     "require": {
+        "ext-zip": "*",
         "composer-plugin-api": "^2",
         "ekino/phpstan-banned-code": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.8",
