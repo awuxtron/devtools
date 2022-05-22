@@ -1,0 +1,9 @@
+includes:
+    - extensions/strict-rules.neon
+    - %currentWorkingDirectory%/phpstan-baseline.neon
+
+parameters:
+    level: 8
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkMissingIterableValueType: true
+    reportUnmatchedIgnoredErrors: true

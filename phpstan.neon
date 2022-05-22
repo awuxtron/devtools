@@ -1,0 +1,6 @@
+includes:
+    - analysis/phpstan.neon
+
+parameters:
+    paths:
+        - php
