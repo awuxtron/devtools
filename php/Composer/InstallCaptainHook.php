@@ -36,6 +36,15 @@ class InstallCaptainHook
             unset($config['commit-msg']['actions'][0]['options']['configFile']);
         }
 
+        // Add test command if exists.
+        if (!empty($composer->getPackage()->getScripts()['test'])) {
+            $config['pre-commit']['actions'][] = [
+                'action' => 'composer test',
+                'options' => [],
+                'conditions' => [],
+            ];
+        }
+
         $root = ComposerPlugin::getRootPath();
 
         if (file_exists("{$root}/.git")) {
