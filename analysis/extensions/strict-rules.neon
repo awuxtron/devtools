@@ -25,7 +25,6 @@ rules:
 	- PHPStan\Rules\Classes\RequireParentConstructCallRule
 	- PHPStan\Rules\DisallowedConstructs\DisallowedBacktickRule
 	- PHPStan\Rules\DisallowedConstructs\DisallowedImplicitArrayCreationRule
-	- PHPStan\Rules\DisallowedConstructs\DisallowedShortTernaryRule
 	- PHPStan\Rules\ForeachLoop\OverwriteVariablesWithForeachRule
 	- PHPStan\Rules\ForLoop\OverwriteVariablesWithForLoopInitRule
 	- PHPStan\Rules\Functions\ClosureUsesThisRule
