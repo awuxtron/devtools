@@ -90,6 +90,37 @@ class ComposerPlugin implements Capable, CommandProvider, PluginInterface, Event
         $this->replPlugin->uninstall($composer, $io);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            ScriptEvents::POST_INSTALL_CMD => 'process',
+            ScriptEvents::POST_UPDATE_CMD => 'process',
+        ];
+    }
+
+    public function process(Event $event): void
+    {
+        $composer = $event->getComposer();
+
+        new InstallCaptainHook($composer);
+
+        $localRepo = $composer->getRepositoryManager()->getLocalRepository();
+        $pssr = $localRepo->findPackage('phpstan/phpstan-strict-rules', '*');
+        $neon = explode(PHP_EOL, (string) file_get_contents($pn = __DIR__ . '/../../analysis/phpstan.neon'));
+        $str = '    - extensions/strict-rules.neon';
+
+        if ($pssr !== null) {
+            unset($neon[1]);
+        } elseif ($neon[1] != $str) {
+            array_splice($neon, 1, 0, $str);
+        }
+
+        file_put_contents($pn, implode(PHP_EOL, $neon));
+    }
+
     protected function downloadUnrequiredPackage(Composer $composer): void
     {
         $root = __DIR__ . '/../..';
@@ -124,33 +155,5 @@ class ComposerPlugin implements Capable, CommandProvider, PluginInterface, Event
                 });
             }
         }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            ScriptEvents::POST_INSTALL_CMD => 'process',
-            ScriptEvents::POST_UPDATE_CMD => 'process',
-        ];
-    }
-
-    public function process(Event $event): void
-    {
-        $composer = $event->getComposer();
-        $localRepo = $composer->getRepositoryManager()->getLocalRepository();
-        $pssr = $localRepo->findPackage('phpstan/phpstan-strict-rules', '*');
-        $neon = explode(PHP_EOL, (string) file_get_contents($pn = __DIR__ . '/../../analysis/phpstan.neon'));
-        $str = '    - extensions/strict-rules.neon';
-
-        if ($pssr !== null) {
-            unset($neon[1]);
-        } elseif ($neon[1] != $str) {
-            array_splice($neon, 1, 0, $str);
-        }
-
-        file_put_contents($pn, implode(PHP_EOL, $neon));
     }
 }
