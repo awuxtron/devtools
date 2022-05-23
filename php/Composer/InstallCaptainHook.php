@@ -64,14 +64,6 @@ class InstallCaptainHook
 
         $extra = ComposerPlugin::getExtra($this->composer, 'captainhook');
 
-        if ($extra !== false && !empty($extra['config'])) {
-            return true;
-        }
-
-        if (file_exists(ComposerPlugin::getRootPath($this->cache))) {
-            return true;
-        }
-
-        return false;
+        return $extra !== false && !empty($extra['config']);
     }
 }
